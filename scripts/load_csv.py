@@ -77,8 +77,12 @@ def load_csv(file_path, delimiter=",", skiprows=6):
         low_memory=False,
     )
     header_row = "Index	Date	Time	New Device Time	BG Source	BG Reading (mg/dL)	Linked BG Meter ID	Basal Rate (U/h)	Temp Basal Amount	Temp Basal Type	Temp Basal Duration (h:mm:ss)	Bolus Type	Bolus Volume Selected (U)	Bolus Volume Delivered (U)	Bolus Duration (h:mm:ss)	Prime Type	Prime Volume Delivered (U)	Alarm	Suspend	Rewind	BWZ Estimate (U)	BWZ Target High BG (mg/dL)	BWZ Target Low BG (mg/dL)	BWZ Carb Ratio (g/U)	BWZ Insulin Sensitivity (mg/dL/U)	BWZ Carb Input (grams)	BWZ BG Input (mg/dL)	BWZ Correction Estimate (U)	BWZ Food Estimate (U)	BWZ Active Insulin (U)	BWZ Status	Sensor Calibration BG (mg/dL)	Sensor Glucose (mg/dL)	ISIG Value	Event Marker	Bolus Number	Bolus Cancellation Reason	BWZ Unabsorbed Insulin Total (U)	Final Bolus Estimate	Scroll Step Size	Insulin Action Curve Time	Sensor Calibration Rejected Reason	Preset Bolus	Bolus Source	BLE Network Device	Device Update Event	Network Device Associated Reason	Network Device Disassociated Reason	Network Device Disconnected Reason	Sensor Exception	Preset Temp Basal Name"
-
     df = df[df.apply(lambda row: "\t".join(row.astype(str)) != header_row, axis=1)]
+
+    # remove all rows that comtains "MiniMed" in the columns "Date" or "Time"
+    df = df[~df["Date"].str.contains("MiniMed")]
+    df = df[~df["Time"].str.contains("MiniMed")]
+
     df = df.fillna(
         {
             "Index": 0,
