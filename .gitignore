@@ -166,3 +166,5 @@ cython_debug/
 data/raw/
 data/processed/
 data/sample/.~lock.*
+labs/training/*
+notebooks/training/*
